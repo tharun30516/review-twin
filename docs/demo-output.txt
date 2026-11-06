@@ -1,0 +1,13 @@
+review-twin · src/orders.ts · 2 past comments · reviewers: @marco, @priya
+
+  @marco pushes on: performance
+  @priya pushes on: null / error handling
+
+Matched 2 changed region(s) to past feedback on this file.
+
+  L41 [suggestion] @priya raised this on similar code before: "Please handle the case where customer is null before reading customer.email, this crashed in prod last time." Check whether it applies here.
+        ↳ @priya https://github.com/acme/shop/pull/41#discussion_r1
+        ↳ @marco https://github.com/acme/shop/pull/57#discussion_r4
+  L65 [suggestion] @marco raised this on similar code before: "This loops over every order item and calls the price API each time. Batch the lookups or cache prices; it is slow for large carts." Check whether it applies here.
+        ↳ @marco https://github.com/acme/shop/pull/57#discussion_r4
+        ↳ @priya https://github.com/acme/shop/pull/41#discussion_r1

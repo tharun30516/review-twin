@@ -1,0 +1,17 @@
+{
+  "name": "review-twin",
+  "version": "0.1.0",
+  "description": "An AI peer reviewer that learns from the review comments your teammates left on a file over its last 50 commits, then reviews your new change the way they would.",
+  "type": "module",
+  "bin": { "review-twin": "src/cli.ts" },
+  "scripts": {
+    "cli": "tsx src/cli.ts",
+    "serve": "tsx src/server.ts",
+    "test": "node --import tsx --test --no-warnings test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "demo": "tsx examples/demo.ts"
+  },
+  "engines": { "node": ">=22.5" },
+  "devDependencies": { "@types/node": "^22.0.0", "tsx": "^4.19.0", "typescript": "^5.6.0" },
+  "license": "MIT"
+}

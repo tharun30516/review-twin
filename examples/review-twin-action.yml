@@ -1,0 +1,29 @@
+# Copy to .github/workflows/review-twin.yml in any repo to get a peer review on every PR.
+name: review-twin
+on:
+  pull_request:
+    types: [opened, synchronize]
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { repository: tharun30516/review-twin, path: review-twin }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: actions/cache@v4   # keep the learned history between runs (incremental sync)
+        with: { path: review-twin/.review-twin.db, key: review-twin-db-${{ github.repository }} }
+      - name: Review each changed file
+        working-directory: review-twin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          npm ci
+          files=$(gh pr view ${{ github.event.number }} -R ${{ github.repository }} --json files -q '.files[].path' | head -20)
+          for f in $files; do
+            npx tsx src/cli.ts review --repo ${{ github.repository }} --file "$f" --pr ${{ github.event.number }} --post || true
+          done
